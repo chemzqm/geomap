@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example of geomap</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="build/build.js"></script>
+    <style>
+      body {
+        padding:100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map">
+    </div>
+
+    <script>
+      var Geomap = require('geomap');
+      var $ = require('jquery');
+      var map = new Geomap({
+        //指定地图渲染位置
+        container: '#map',
+        mapStyle: {
+          stroke: '#fff'
+        },
+        //指定横纵缩放比
+        scale: {
+          x: 9,
+          y: 9
+        }
+      });
+      $.ajax({
+        url: '/china-province.geojson',
+        dataType: 'json'
+      }).done(function(json) {
+        map.load(json);
+        map.render();
+        setInterval(function(){
+          map.shapes.forEach(function(v){
+            //随机颜色
+            color = '#' + Math.random().toString(16).substring(2, 8);
+            if(7 - color.length != 0){
+              color += Math.random().toString(16).substring(2, 9 - color.length);
+            }
+            //给区域上色
+            v.attr('fill', color);
+          });
+        }, 1000);
+      })
+    </script>
+  </body>
+</html>
