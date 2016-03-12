@@ -35,7 +35,6 @@
       }).done(function(json) {
         map.load(json);
         map.render();
-        setInterval(function(){
           map.shapes.forEach(function(v){
             //随机颜色
             color = '#' + Math.random().toString(16).substring(2, 8);
@@ -45,7 +44,6 @@
             //给区域上色
             v.attr('fill', color);
           });
-        }, 1000);
       })
     </script>
   </body>
